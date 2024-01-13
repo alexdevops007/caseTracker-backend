@@ -6,6 +6,11 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const mongodb = require("./database/mongodb");
 
+const caseRoutes = require('./routes/caseRoutes');
+const communicationRoutes = require('./routes/communicationRoutes');
+const evidenceRoutes = require('./routes/evidenceRoutes');
+const reportRoutes = require('./routes/reportRoutes');
+
 const app = express();
 const config = require("./config");
 
@@ -50,6 +55,12 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Erreur serveur");
 });
+
+// Routes app
+app.use('/api', caseRoutes);
+app.use('/api', communicationRoutes);
+app.use('/api', evidenceRoutes);
+app.use('/api', reportRoutes);
 
 app.listen(config.port, () =>
   console.log(`Server listening on port ${config.port}🕺😊☄️☀️`.bgMagenta)
