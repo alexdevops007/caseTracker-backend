@@ -1,7 +1,7 @@
 {
   "name": "casetracker-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "CaseTracker - Système de Suivi des Enquêtes",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
