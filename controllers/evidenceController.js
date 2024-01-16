@@ -1,4 +1,4 @@
-const EvidenceModel = require('../models/EvidenceModel');
+const EvidenceModel = require("../models/EvidenceModel");
 
 // Récupérer toutes les preuves numériques d'un cas
 exports.getEvidenceByCaseId = async (req, res, next) => {
@@ -9,7 +9,7 @@ exports.getEvidenceByCaseId = async (req, res, next) => {
     res.status(200).json(evidence);
   } catch (error) {
     console.error(`Error getting evidence for case: ${error.message}`);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -18,11 +18,37 @@ exports.addEvidence = async (req, res, next) => {
   const { description, fileUrl, caseId, uploadedBy } = req.body;
 
   try {
-    const newEvidence = new EvidenceModel({ description, fileUrl, caseId, uploadedBy });
+    const newEvidence = new EvidenceModel({
+      description,
+      fileUrl,
+      caseId,
+      uploadedBy,
+    });
     const savedEvidence = await newEvidence.save();
     res.status(201).json(savedEvidence);
   } catch (error) {
     console.error(`Error adding evidence: ${error.message}`);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Fonction pour télécharger, stocker, marquer et gérer des preuves numériques
+exports.uploadEvidence = async (req, res) => {
+  try {
+    // Logique pour télécharger, stocker, marquer et gérer la preuve numérique
+    const { caseId, fileName, fileUrl, description, uploadedBy } = req.body;
+
+    // Enregistrez la preuve dans la base de données
+    const evidence = await EvidenceModel.create({
+      caseId,
+      fileName,
+      fileUrl,
+      description,
+      uploadedBy,
+    });
+    res.status(201).json({ success: true, evidence });
+  } catch (error) {
+    console.error("Erreur lors de la gestion de la preuve numérique: ", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 };

@@ -6,13 +6,17 @@ const evidenceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fileName: {
+    type: String,
+    required: true,
+  },
   fileUrl: {
     type: String,
     required: true,
   },
   caseId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Case',
+    ref: "Case",
     required: true,
   },
   uploadedBy: {
