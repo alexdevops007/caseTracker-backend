@@ -6,6 +6,9 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const mongodb = require("./database/mongodb");
 
+const http = require("http");
+const socketIo = require("socket.io");
+
 const caseRoutes = require('./routes/caseRoutes');
 const communicationRoutes = require('./routes/communicationRoutes');
 const evidenceRoutes = require('./routes/evidenceRoutes');
@@ -15,6 +18,21 @@ const app = express();
 const config = require("./config");
 
 dotenv.config();
+
+// Création d'un serveur HTTP à partir de l'application Express
+const server = http.createServer(app);
+const io = socketIo(server);
+
+// Middleware pour utiliser socket.io
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+});
+
+// Configuration de la gestion des connexions WebSocket
+io.on('connection', (socket) => {
+    console.log(`Nouvelle connexion WebSocket: ${socket.id}`)
+})
 
 // Middleware
 app.use(cors());
@@ -57,6 +75,6 @@ app.use('/api', communicationRoutes);
 app.use('/api', evidenceRoutes);
 app.use('/api', reportRoutes);
 
-app.listen(config.port, () =>
+server.listen(config.port, () =>
   console.log(`Server listening on port ${config.port}🕺😊☄️☀️`.bgMagenta)
 );
