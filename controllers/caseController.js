@@ -13,10 +13,16 @@ exports.getAllCases = async (req, res, next) => {
 
 // Créer un nouveau cas
 exports.createCase = async (req, res, next) => {
-  const { title, description, assignedTo } = req.body;
+  const { title, description, assignedTo, status, tasks } = req.body;
 
   try {
-    const newCase = new CaseModel({ title, description, assignedTo });
+    const newCase = new CaseModel({
+      title,
+      description,
+      assignedTo,
+      status,
+      tasks,
+    });
     const savedCase = await newCase.save();
     res.status(201).json(savedCase);
   } catch (error) {
