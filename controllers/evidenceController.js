@@ -1,5 +1,16 @@
 const EvidenceModel = require("../models/EvidenceModel");
 
+// Récupérer toutes les preuves numériques
+exports.getAllEvidences = async (req, res, next) => {
+  try {
+    const evidences = await EvidenceModel.find();
+    res.status(200).json(evidences);
+  } catch (error) {
+    console.error(`Error getting cases: ${error.message}`);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 // Récupérer toutes les preuves numériques d'un cas
 exports.getEvidenceByCaseId = async (req, res, next) => {
   const { caseId } = req.params;
