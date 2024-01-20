@@ -47,13 +47,14 @@ exports.addEvidence = async (req, res, next) => {
 exports.uploadEvidence = async (req, res) => {
   try {
     // Logique pour télécharger, stocker, marquer et gérer la preuve numérique
-    const { caseId, fileName, fileUrl, description, uploadedBy } = req.body;
+    const { caseId, description, uploadedBy } = req.body;
+    const file = req.file;
 
     // Enregistrez la preuve dans la base de données
     const evidence = await EvidenceModel.create({
       caseId,
-      fileName,
-      fileUrl,
+      fileName: file.originalname,
+      fileUrl: file.path,
       description,
       uploadedBy,
     });
