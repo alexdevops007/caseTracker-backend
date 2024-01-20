@@ -26,12 +26,13 @@ exports.getEvidenceByCaseId = async (req, res, next) => {
 
 // Ajouter une nouvelle preuve numérique
 exports.addEvidence = async (req, res, next) => {
-  const { description, fileUrl, caseId, uploadedBy } = req.body;
+  const { description, fileUrl, fileName, caseId, uploadedBy } = req.body;
 
   try {
     const newEvidence = new EvidenceModel({
       description,
       fileUrl,
+      fileName,
       caseId,
       uploadedBy,
     });
